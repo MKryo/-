@@ -22,17 +22,17 @@ class Agent:
       denom = ( (1-self.alpha) + (self.alpha * C_d **(-self.m)) ) ** (-(1/self.m))
       C_d_H = C_d / denom # (28)式
       norm = C_d_H + C_d_T# 正規化項
-      
+
       C_d_H = C_d_H / norm # C(H|h_max) 正規化 (29)式
       C_d_T = C_d_T / norm # C(T|h_max) 正規化 (29)式
       return C_d_H, C_d_T
-      
+
     elif d==0:
 
       denom = ( (1-self.alpha) + (self.alpha * C_d **(-self.m)) ) ** (-(1/self.m))
       C_d_T = C_d_T / denom # (28)式
       norm = C_d_H + C_d_T # 正規化項
-      
+
       C_d_H = C_d_H / norm # C(H|h_max) 正規化 (29)式
       C_d_T = C_d_T / norm # C(T|h_max) 正規化 (29)式
       return C_d_H, C_d_T

@@ -56,7 +56,7 @@ for i in range(TOSS_NUM):
     h[j][i] = prior_probs_1[j]
     H_h[j][i] = H_likelihoods_1[j]
   #############
-  
+
 ### plot ###
 plt.figure(figsize=(15,5))
 plt.plot(timestep, estimation_1, label="Agent1")

@@ -43,10 +43,10 @@ for i in range(TOSS_NUM):
   for j in range(N+1):
     h[j][i] = prior_probs[j]
     H_h[j][i] = H_likelihoods[j]
-  
+
   max_h_array[i] = max_h
   #############
-  
+
 ### plot ###
 plt.figure(figsize=(12,5))
 plt.plot(timestep, p_sin, label="correct")

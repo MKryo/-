@@ -1,6 +1,6 @@
 import numpy as np
 
-def trans_to_categorical(x): 
+def trans_to_categorical(x):
   x = np.array(x)
   x = x*100
   x = np.floor(x).astype(int)
@@ -13,7 +13,7 @@ def mutual_info(X, Y):
     if ans==0:
       ans = 1e-15
     return ans
-    
+
   def Px(x):
       ans = np.count_nonzero(X == x) / len(X)
       if ans==0:

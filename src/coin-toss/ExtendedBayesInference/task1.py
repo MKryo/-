@@ -34,7 +34,7 @@ for i in range(TOSS_NUM):
   prior_probs, C_d = model.bayes_update(prior_probs, H_likelihoods, T_likelihoods,  l[i], alpha, m, epsilon)
   H_likelihoods, T_likelihoods, max_h = model.Inverse_bayes_update(prior_probs_copy, H_likelihoods, T_likelihoods, l[i], alpha, m, epsilon, C_d)
   estimation[i] = np.sum(prior_probs*H_likelihoods)  # (30)式
-  
+
 ### plot ###
 plt.figure(figsize=(12,5))
 correct = np.full(TOSS_NUM ,p)

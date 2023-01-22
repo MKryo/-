@@ -30,7 +30,7 @@ epsilon = 0
 #### ベイズ更新 ####
 for i in range(TOSS_NUM):
   prior_prob = model.bayesian_update(prior_prob, H_likelihoods, T_likelihoods, l[i], epsilon)
-  estimation[i] = np.sum(prior_prob*H_likelihoods)  # ベイズ推定量の計算 
+  estimation[i] = np.sum(prior_prob*H_likelihoods)  # ベイズ推定量の計算
 
 ### plot ###
 plt.figure(figsize=(10,5))
