@@ -47,7 +47,7 @@ for i in range(TOSS_NUM):
   H_likelihoods_2, T_likelihoods_2 = agent2.Inverse_bayes_update(prior_probs_copy_2, H_likelihoods_2, T_likelihoods_2, d1, C_d_2)
   estimation_2[i] = np.sum(prior_probs_2*H_likelihoods_2)  # (30)式
   # estimation_2[i] = H_likelihoods_2[max_h_2]
-  # estimation_2[i] = np.random.choice(H_likelihoods_2, p=prior_probs_2) 
+  # estimation_2[i] = np.random.choice(H_likelihoods_2, p=prior_probs_2)
   # print(np.sum(prior_probs_2))
   d2 = agent2.generator(estimation_2[i]) # generator(表確率の確信度)
 
