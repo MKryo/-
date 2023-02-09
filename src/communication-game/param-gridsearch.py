@@ -2,17 +2,26 @@
 import numpy as np
 import model
 import statistics
+from scipy.stats import entropy
 
-SIM_NUM=100
-alpha_list = np.zeros(SIM_NUM)
-m_list = np.zeros(SIM_NUM)
+SIM_NUM=10
+alpha_list_mutual = np.zeros(SIM_NUM)
+m_list_mutual = np.zeros(SIM_NUM)
+alpha_list_corr = np.zeros(SIM_NUM)
+m_list_corr = np.zeros(SIM_NUM)
+alpha_list_entropy = np.zeros(SIM_NUM)
+m_list_entropy = np.zeros(SIM_NUM)
 
 for sim_idx in range(SIM_NUM):
     mutual_info_list=[]
+    corr_list=[]
+    entropy_list=[]
     grid_alpha = np.arange(0, 1.0, 0.1)
     grid_m = np.arange(-2.0, 2.0, 0.1)
     alpha_m_mutual_column = np.array([0,0,0])
-    m=0
+    alpha_m_corr_column = np.array([0,0,0])
+    alpha_m_entropy_column = np.array([0,0,0])
+    o=0
     for k in range(len(grid_alpha)):
         alpha = grid_alpha[k]
         for j in range(len(grid_m)):
@@ -50,19 +59,36 @@ for sim_idx in range(SIM_NUM):
                 estimation_2[i] = np.sum(prior_probs_2*H_likelihoods_2)  # (30)式
                 d2 = agent2.generator(estimation_2[i]) # generator(表確率の確信度)
             mutual = statistics.mutual_info(statistics.trans_to_categorical(estimation_1), statistics.trans_to_categorical(estimation_2))
+            corr = np.corrcoef(statistics.trans_to_categorical(estimation_1), statistics.trans_to_categorical(estimation_2))[1,0]
+            en = entropy(statistics.trans_to_categorical(estimation_1), base=2)
+            entropy_list.append(en)
             mutual_info_list.append(mutual)
-            alpha_m_mutual_column = np.vstack([alpha_m_mutual_column, np.array([alpha, m, mutual])])
-            m+=1
-    # np.savetxt('info.csv',alpha_m_mutual_column ,delimiter=',')
-    mutual_info_list = np.array(mutual_info_list)
-    # print(mutual_info_list)
-    # print(alpha_m_mutual_column[np.argmax(mutual_info_list)][0])
-    # print(alpha_m_mutual_column[np.argmax(mutual_info_list)][1])
+            corr_list.append(corr)
 
-    alpha_list[sim_idx] = alpha_m_mutual_column[np.argmax(mutual_info_list)][0]
-    m_list[sim_idx] = alpha_m_mutual_column[np.argmax(mutual_info_list)][1]
+            alpha_m_mutual_column = np.vstack([alpha_m_mutual_column, np.array([alpha, m, mutual])])
+
+            alpha_m_corr_column = np.vstack([alpha_m_corr_column, np.array([alpha, m, corr])])
+
+            alpha_m_entropy_column = np.vstack([alpha_m_entropy_column, np.array([alpha, m, en])])
+            o+=1
+    mutual_info_list = np.array(mutual_info_list)
+    corr_list = np.array(corr_list)
+    entropy_list = np.array(entropy_list)
+
+    alpha_list_mutual[sim_idx] = alpha_m_mutual_column[np.argmax(mutual_info_list)][0]
+    m_list_mutual[sim_idx] = alpha_m_mutual_column[np.argmax(mutual_info_list)][1]
+    alpha_list_corr[sim_idx] = alpha_m_corr_column[np.argmax(corr_list)][0]
+    m_list_corr[sim_idx] = alpha_m_corr_column[np.argmax(corr_list)][1]
+    alpha_list_entropy[sim_idx] = alpha_m_entropy_column[np.argmax(entropy_list)][0]
+    m_list_entropy[sim_idx] = alpha_m_entropy_column[np.argmax(entropy_list)][1]
 
     mutual_info_list = list(mutual_info_list)
+    corr_list = list(corr_list)
+    entropy_list = list(entropy_list)
 
-print(np.mean(alpha_list, axis=0))
-print(np.mean(m_list, axis=0))
+print("alpha:", np.mean(alpha_list_mutual, axis=0))
+print("m:", np.mean(m_list_mutual, axis=0))
+print("alpha:", np.mean(alpha_list_corr, axis=0))
+print("m:", np.mean(m_list_corr, axis=0))
+print("alpha:", np.mean(alpha_list_entropy, axis=0))
+print("m:", np.mean(m_list_entropy, axis=0))
