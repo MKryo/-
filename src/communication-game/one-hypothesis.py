@@ -1,7 +1,6 @@
 # ライブラリ
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
 import model
 import statistics
 
@@ -17,8 +16,8 @@ T_likelihoods_2 = 1 - H_likelihoods_2 # 裏の尤度 C(d=0|h_max) (31)式
 
 prior_probs_1 = np.array([1/(K+1)]*len(H_likelihoods_1)) # 事前分布： 一様分布 (32)式
 prior_probs_2 = np.array([1/(K+1)]*len(H_likelihoods_2)) # 事前分布： 一様分布 (32)式
-d1= 1 if np.random.rand() < 0.9 else 0
-d2= 1 if np.random.rand() < 0.9 else 0
+d1= 1 if np.random.rand() < 0.5 else 0
+d2= 1 if np.random.rand() < 0.5 else 0
 
 agent1 = model.Agent(K, alpha, m)
 agent2 = model.Agent(K, alpha, m)
@@ -58,14 +57,15 @@ for i in range(TOSS_NUM):
   #############
 
 ### plot ###
-plt.figure(figsize=(15,5))
+plt.figure(figsize=(20,6))
 plt.plot(timestep, estimation_1, label="Agent1")
 plt.plot(timestep, estimation_2, label="Agent2")
-plt.xlabel("time step", fontsize = 15)
-plt.ylabel("hypothesis", fontsize = 15)
+plt.xlabel("time step", fontsize = 20)
+plt.ylabel("estimation of generative model", fontsize = 20)
 plt.xlim(0, TOSS_NUM)
-
-plt.legend()
+plt.tick_params(labelsize=20)
+plt.legend(fontsize=20)
+plt.savefig("optimal_param_estimation.png",dpi=500)
 plt.show()
 
 # 尤度（仮説）の変化
@@ -73,10 +73,13 @@ plt.show()
 plt.figure(figsize=(15,5))
 for i in range(K+1):
   plt.plot(timestep, H_h[i], label="h"+str(i))
-plt.xlabel("time step", fontsize = 15)
-plt.ylabel("C(H|h)", fontsize = 15)
+plt.xlabel("time step", fontsize = 25)
+plt.ylabel("C(H|h)", fontsize = 25)
 plt.xlim(0, TOSS_NUM)
+plt.tick_params(labelsize=25)
+plt.legend(fontsize=40)
 plt.legend()
 plt.show()
 
+print("相関係数: ", np.corrcoef(estimation_1, estimation_2))
 print("相互情報量: " ,statistics.mutual_info(statistics.trans_to_categorical(estimation_1), statistics.trans_to_categorical(estimation_2)))

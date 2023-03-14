@@ -62,9 +62,10 @@ for sim_idx in range(SIM_NUM):
 
 mean_mutual_info_list = mutual_info_list_eachsum/SIM_NUM
 plt.plot(grid_m, mean_mutual_info_list, marker="d", label="alpha=0.35")
-plt.xlabel("m")
-plt.ylabel("Mutual Infomation (div=101)")
-plt.legend()
+plt.xlabel("m", fontsize=20)
+plt.ylabel("Mutual Infomation (div=101)", fontsize=20)
+plt.tick_params(labelsize=18)
+plt.legend(fontsize=20)
 plt.show()
 
 print("alpha:", np.mean(alpha_list_mutual, axis=0))

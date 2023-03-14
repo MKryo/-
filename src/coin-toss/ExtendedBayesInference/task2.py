@@ -24,8 +24,8 @@ l = generate_sample(TOSS_NUM, p_sin)
 epsilon = 0
 
 # ハイパーパラメータ
-alpha = 0.35
-m = -1.1
+alpha = 0.3
+m = -1.0
 
 h = np.zeros((N+1, TOSS_NUM))
 H_h = np.zeros((N+1, TOSS_NUM))
