@@ -6,8 +6,8 @@ import statistics
 
 # 共通設定
 K=0 # 仮説数K+1
-alpha=0.35
-m=-1.1
+alpha=0
+m=0.0001
 H_likelihoods_1 = np.random.rand(K+1) # 尤度の初期値ランダム
 T_likelihoods_1 = 1 - H_likelihoods_1 # 裏の尤度 C(d=0|h_max) (31)式
 
